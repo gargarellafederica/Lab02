@@ -7,6 +7,9 @@ package it.polito.tdp.alien;
 
 
 import java.net.URL;
+import java.security.InvalidParameterException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -40,16 +43,34 @@ public class AlienController {
     	
     }
   
+    AlienDictionary diz;
     
     @FXML
     void doTranslate(ActionEvent event) {
+    	String testo = txtWord.getText().toLowerCase();
+    	String[] parole = testo.split(" ");
+    	if (parole.length==2) {
+    		diz.addWord(parole[0], parole[1]);
+    		txtWord.clear();
+    	}
+    	if (parole.length==1) {
+    		if(diz.translateWord(parole[0])!=null)
+    			txtResult.appendText("La traduzione è" + diz.translateWord(parole[0].toLowerCase())+ "\n");
+    		else txtResult.appendText("Parola non presente, aggiungerla con relativa traduzione!\n");
+    	}
+    		
+    	throw new InvalidParameterException("Testo inserito non valido");
+    		
+    	}
     	    	
-    }
     
     
     @FXML
     void doReset(ActionEvent event) {
+    	txtWord.clear();
+    	txtResult.clear();
 
     }
     
-}
+    }
+    
