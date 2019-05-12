@@ -7,9 +7,6 @@ package it.polito.tdp.alien;
 
 
 import java.net.URL;
-import java.security.InvalidParameterException;
-import java.util.ArrayList;
-import java.util.List;
 import java.util.ResourceBundle;
 
 import javafx.event.ActionEvent;
@@ -20,6 +17,8 @@ import javafx.scene.control.TextField;
 
 public class AlienController {
 	
+	private AlienDictionary diz= new AlienDictionary();
+	 
     @FXML
     private ResourceBundle resources;
     @FXML
@@ -43,33 +42,57 @@ public class AlienController {
     	
     }
   
-    AlienDictionary diz;
     
     @FXML
     void doTranslate(ActionEvent event) {
     	String testo = txtWord.getText().toLowerCase();
-    	String[] parole = testo.split(" ");
-    	if (parole.length==2) {
-    		diz.addWord(parole[0], parole[1]);
+    	String txt = testo.trim();
+    	
+    	// controllo sull'input se ho inserito solo spazi o nulla 
+    	if (txt.length()==0 || testo==null) {
+    		txtResult.setText("Inserire una o due parole!\n");
     		txtWord.clear();
+    		return;
     	}
+    	String[] parole = testo.split(" "); //salvo le due parole
+  
+    	if (parole.length==2) {
+    		
+    		//controllo siano solo caratteri alfabetici
+    		if (!parole[0].matches("[a-zA-Z]*") || !parole[1].matches("[a-zA-Z]*")) {
+    			txtResult.setText("Inserire solo caratteri alfabetici.\n");
+    			txtWord.clear();
+    			return;
+    		}
+    		
+    		//aggiungo la parola
+    		txtWord.clear();
+    		diz.addWord(parole[0], parole[1]);
+    		txtResult.setText("La traduzione della parola: " + parole[0] +" è: " + parole[1] + "\n");
+    		}
     	if (parole.length==1) {
-    		if(diz.translateWord(parole[0])!=null)
-    			txtResult.appendText("La traduzione è" + diz.translateWord(parole[0].toLowerCase())+ "\n");
-    		else txtResult.appendText("Parola non presente, aggiungerla con relativa traduzione!\n");
-    	}
     		
-    	throw new InvalidParameterException("Testo inserito non valido");
+    		//controllo siano solo caratteri alfabetici
+    		if (!parole[0].matches("[a-zA-Z]*")) {
+    			txtResult.setText("Inserire solo caratteri alfabetici.\n");
+    			txtWord.clear();
+    			return;
+    		} 
     		
+    		//cerco o aggiungo la traduzione
+			if(diz.translateWord(parole[0])!=null)
+				txtResult.setText("La traduzione è: " + diz.translateWord(parole[0]) + "\n");
+			else txtResult.setText("Parola non presente, aggiungerla con relativa traduzione!\n");
     	}
-    	    	
-    
-    
+    	if (parole.length>2)
+    		txtResult.setText("Inserire una o due parole\n");
+    		txtWord.clear();
+    }
     @FXML
     void doReset(ActionEvent event) {
     	txtWord.clear();
     	txtResult.clear();
-
+    	diz.resetDizionario();
     }
     
     }

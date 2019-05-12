@@ -5,22 +5,32 @@ import java.util.List;
 
 public class AlienDictionary {
 	
-	List<Word> dizionario= new ArrayList<Word>(); 
+	private List<Word> dizionario;
+	
+	public AlienDictionary() {
+		dizionario= new ArrayList<>(); 
+	}
 	
 	public void addWord(String alienWord, String translation) {
 		Word parola=new Word(alienWord,translation);
-		for (Word w:dizionario) {
-			if(w.equals(parola))
-				parola.setTranslation(translation);
-			else dizionario.add(parola);
-		}
+		if(dizionario.contains(parola)){
+			
+			dizionario.get(dizionario.indexOf(parola)).setTranslation(translation);
+			return;
+			}
+		dizionario.add(parola);
 	}
 
 	public String translateWord (String alienWord) {
-		for (Word w:dizionario) 
-			if(w.getAlienWord().equals(alienWord))
-				return w.getTranslation();	
+		Word parola=new Word(alienWord); 
+			if(dizionario.contains(parola)) {
+				return dizionario.get(dizionario.indexOf(parola)).getTranslation();
+			}
 		return null;
+	}
+
+	public void resetDizionario() {
+		dizionario.clear();
 	}
 
 }
