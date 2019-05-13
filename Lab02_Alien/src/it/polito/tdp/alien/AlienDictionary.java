@@ -5,33 +5,34 @@ import java.util.List;
 
 public class AlienDictionary {
 	
-	private List<Word> dizionario;
+	private List<WordEnhanced> dizionario;
 	
 	public AlienDictionary() {
 		dizionario= new ArrayList<>(); 
 	}
 	
 	public void addWord(String alienWord, String translation) {
-		Word parola=new Word(alienWord,translation);
+		WordEnhanced parola=new WordEnhanced(alienWord,translation);
 		if(dizionario.contains(parola)){
-			
-			dizionario.get(dizionario.indexOf(parola)).setTranslation(translation);
+			dizionario.get(dizionario.indexOf(parola)).setTranslationList(translation);
 			return;
 			}
 		dizionario.add(parola);
 	}
 
 	public String translateWord (String alienWord) {
-		Word parola=new Word(alienWord); 
-			if(dizionario.contains(parola)) {
-				return dizionario.get(dizionario.indexOf(parola)).getTranslation();
-			}
-		return null;
+		for (WordEnhanced w: dizionario)
+			if( w.getAlienWord().contentEquals(alienWord))
+				return dizionario.get(dizionario.indexOf(w)).getTranslationList(); //problema in questa istruzione restituisce solo la prima parola della lista
+			return null;
 	}
 
 	public void resetDizionario() {
 		dizionario.clear();
 	}
 
+	//public List<WordEnhanced> getDizionario() {
+	//	return dizionario;
+	//}
 }
 

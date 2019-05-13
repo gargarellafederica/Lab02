@@ -68,8 +68,11 @@ public class AlienController {
     		//aggiungo la parola
     		txtWord.clear();
     		diz.addWord(parole[0], parole[1]);
-    		txtResult.setText("La traduzione della parola: " + parole[0] +" è: " + parole[1] + "\n");
-    		}
+    		txtResult.appendText("La traduzione della parola: " + parole[0] +" è: " + parole[1] + "\n");
+    		//for (WordEnhanced w: diz.getDizionario())
+    		//	if( w.getAlienWord().contains(parole[0]))
+    		//		txtResult.appendText(w.getTranslationList());
+    	}
     	if (parole.length==1) {
     		
     		//controllo siano solo caratteri alfabetici
@@ -80,8 +83,9 @@ public class AlienController {
     		} 
     		
     		//cerco o aggiungo la traduzione
-			if(diz.translateWord(parole[0])!=null)
-				txtResult.setText("La traduzione è: " + diz.translateWord(parole[0]) + "\n");
+    		String trad= diz.translateWord(parole[0]);
+			if(trad !=null)
+				txtResult.setText("La traduzione è: " + trad );
 			else txtResult.setText("Parola non presente, aggiungerla con relativa traduzione!\n");
     	}
     	if (parole.length>2)
