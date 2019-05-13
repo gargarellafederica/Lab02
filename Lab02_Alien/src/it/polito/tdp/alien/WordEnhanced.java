@@ -31,6 +31,12 @@ public class WordEnhanced {
 		if(!translationList.contains(translation))
 			translationList.add(translation);
 	}
+	//esercizio 3
+	public boolean compareWild(String alienWild) {
+		if (alienWord.matches(alienWild))
+			return true;
+		return false;
+	}
 
 	@Override
 	public int hashCode() {

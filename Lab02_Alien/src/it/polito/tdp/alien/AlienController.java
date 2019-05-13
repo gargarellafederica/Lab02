@@ -76,14 +76,19 @@ public class AlienController {
     	if (parole.length==1) {
     		
     		//controllo siano solo caratteri alfabetici
-    		if (!parole[0].matches("[a-zA-Z]*")) {
+    		if (!parole[0].matches("[a-zA-Z?]*")) {
     			txtResult.setText("Inserire solo caratteri alfabetici.\n");
     			txtWord.clear();
     			return;
     		} 
+    		String trad;
+    		if (parole[0].matches("[a-zA-Z?]*") &&  !parole[0].matches("[a-zA-Z]*"))
+    		//traduzione con WildCrd
+    			trad=diz.translateWordWildCard(parole[0]);
+    		else
+    			//cerco o aggiungo la traduzione
+    			trad= diz.translateWord(parole[0]);
     		
-    		//cerco o aggiungo la traduzione
-    		String trad= diz.translateWord(parole[0]);
 			if(trad !=null)
 				txtResult.setText("La traduzione è: " + trad );
 			else txtResult.setText("Parola non presente, aggiungerla con relativa traduzione!\n");
